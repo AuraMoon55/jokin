@@ -5,8 +5,8 @@ from pyrogram.errors import FloodWait
 
 from config import ADMINS, CHANNEL_ID, DISABLE_CHANNEL_BUTTON, USE_GROUP
 from Bot.helper_func import encode
-from Bot import bot, ADMINS, CHANNEL_ID, DISABLE_CHANNEL_BUTTON
-
+from Bot import , ADMINS, CHANNEL_ID, DISABLE_CHANNEL_BUTTON
+from Bot import Pbot as Bot
 
 @Bot.on_message(filters.user(ADMINS) & ~filters.command(['start','users','broadcast','batch','genlink']))
 async def channel_post(client: Client, message: Message):

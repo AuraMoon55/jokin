@@ -41,7 +41,7 @@ def LOGGER(name: str) -> logging.Logger:
     return logging.getLogger(name)
 
 
-class Bot(Client):
+class bot(Client):
     def __init__(self):
         super().__init__(
             "Bot",

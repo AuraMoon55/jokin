@@ -3,7 +3,6 @@ from pyrogram import filters, Client
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.errors import FloodWait
 
-from config import ADMINS, CHANNEL_ID, DISABLE_CHANNEL_BUTTON, USE_GROUP
 from Bot.helper_func import encode
 from Bot import ADMINS, CHANNEL_ID, DISABLE_CHANNEL_BUTTON
 from Bot import Pbot as Bot

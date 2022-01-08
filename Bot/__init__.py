@@ -40,47 +40,37 @@ logging.getLogger("pyrogram").setLevel(logging.WARNING)
 def LOGGER(name: str) -> logging.Logger:
     return logging.getLogger(name)
 
+Pbot = Client("bot", api_hash=API_HASH,api_id=APP_ID,workers=TG_BOT_WORKERS,bot_token=TG_BOT_TOKEN)
 
-class Pbot(Client):
-    def __init__(self):
-        super().__init__(
-            "Bot",
-            api_hash=API_HASH,
-            api_id=APP_ID,
-            workers=TG_BOT_WORKERS,
-            bot_token=TG_BOT_TOKEN
-        )
-        self.LOGGER = LOGGER
+async def start(Pbot):
+    await Pbot.start()
+    usr_bot_me = await Pbot.get_me()
 
-    async def start(self):
-        await super().start()
-        usr_bot_me = await self.get_me()
-
-        if FORCE_SUB_CHANNEL:
-            try:
-                link = await self.export_chat_invite_link(FORCE_SUB_CHANNEL)
-                self.invitelink = link
-            except Exception as a:
-                self.LOGGER(__name__).warning(a)
-                self.LOGGER(__name__).warning("Bot can't Export Invite link from Force Sub Channel!")
-                self.LOGGER(__name__).warning(f"Please Double check the FORCE_SUB_CHANNEL value and Make sure Bot is Admin in channel with Invite Users via Link Permission, Current Force Sub Channel Value: {FORCE_SUB_CHANNEL}")
-                self.LOGGER(__name__).info("\nBot Stopped")
-                sys.exit()
+    if FORCE_SUB_CHANNEL:
         try:
-            db_channel = await self.get_chat(CHANNEL_ID)
-            self.db_channel = db_channel
-            test = await self.send_message(chat_id = db_channel.id, text = "Test Message")
-            await test.delete()
-        except Exception as e:
-            self.LOGGER(__name__).warning(e)
-            self.LOGGER(__name__).warning(f"Make Sure bot is Admin in DB Channel, and Double check the CHANNEL_ID Value, Current Value {CHANNEL_ID}")
-            self.LOGGER(__name__).info("\nBot Stopped.")
+            link = await Pbot.export_chat_invite_link(FORCE_SUB_CHANNEL)
+            Pbot.invitelink = link
+        except Exception as a:
+            LOGGER(__name__).warning(a)
+            LOGGER(__name__).warning("Bot can't Export Invite link from Force Sub Channel!")
+            LOGGER(__name__).warning(f"Please Double check the FORCE_SUB_CHANNEL value and Make sure Bot is Admin in channel with Invite Users via Link Permission, Current Force Sub Channel Value: {FORCE_SUB_CHANNEL}")
+            LOGGER(__name__).info("\nBot Stopped")
             sys.exit()
+    try:
+        db_channel = await Pbot.get_chat(CHANNEL_ID)
+        Pbot.db_channel = db_channel
+        test = await Pbot.send_message(chat_id = db_channel.id, text = "Test Message")
+        await test.delete()
+    except Exception as e:
+        LOGGER(__name__).warning(e)
+        LOGGER(__name__).warning(f"Make Sure bot is Admin in DB Channel, and Double check the CHANNEL_ID Value, Current Value {CHANNEL_ID}")
+        LOGGER(__name__).info("\nBot Stopped.")
+        sys.exit()
 
-        self.set_parse_mode("html")
-        self.LOGGER(__name__).info(f"Bot Running..!\n\nCreated by Villians\nhttps://t.me/Villians_association")
-        self.username = usr_bot_me.username
+        Pbot.set_parse_mode("html")
+        LOGGER(__name__).info(f"Bot Running..!\n\nCreated by Villians\nhttps://t.me/Villians_association")
+        Pbot.username = usr_bot_me.username
 
-    async def stop(self, *args):
-        await super().stop()
-        self.LOGGER(__name__).info("Bot stopped.")
+    async def stop(Pbot, *args):
+        await Pbot.stop()
+        LOGGER(__name__).info("Bot stopped.")

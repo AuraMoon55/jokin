@@ -4,10 +4,10 @@ from pyrogram import Client, filters, __version__
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from pyrogram.errors import FloodWait, UserIsBlocked, InputUserDeactivated
 
-from Bot import bot, ADMINS, FORCE_MSG, CUSTOM_CAPTION, DISABLE_CHANNEL_BUTTON
+from Bot import ADMINS, FORCE_MSG, CUSTOM_CAPTION, DISABLE_CHANNEL_BUTTON
 from Bot.helper_func import subscribed, encode, decode, get_messages
 from Bot.database.sql import add_user, query_msg, full_userbase
-
+from Bot import Pbot as Bot
 
 #=====================================================================================##
 
